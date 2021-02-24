@@ -17,7 +17,26 @@ def score_values():
     return score_dict
 
 score = score_values()
-options = ['rock', 'paper', 'scissors']
+
+# Dictionary with all winning cases
+beats = {
+    'water' : ['scissors', 'fire', 'rock', 'hun', 'lightning', 'devil', 'dragon'],
+    'dragon' : ['snake', 'scissors', 'fire', 'rock', 'gun', 'lightning', 'devil'],
+    'devil' : ['tree', 'human', 'snake', 'scissors', 'fire', 'rock', 'gun'],
+    'gun' : ['wolf', 'tree', 'human', 'snake', 'scissors', 'fire', 'rock'],
+    'rock' : ['sponge', 'wolf', 'tree', 'human', 'snake', 'scissors', 'fire'],
+    'fire' : ['paper', 'sponge', 'wolf', 'tree', 'human', 'snake', 'scissors'],
+    'scissors' : ['air', 'paper', 'sponge', 'wolf', 'tree', 'human', 'snake'],
+    'snake' : ['water', 'air', 'paper', 'sponge', 'wolf', 'tree', 'human'],
+    'human' : ['dragon', 'water', 'air', 'paper', 'sponge', 'wolf', 'tree'],
+    'tree' : ['devil', 'dragon', 'water', 'air', 'paper', 'sponge', 'wolf'],
+    'wolf' : ['lightning', 'devil', 'dragon', 'water', 'air', 'paper', 'sponge'],
+    'sponge' : ['gun', 'lightning', 'devil', 'dragon', 'water', 'air', 'paper'],
+    'paper' : ['rock', 'gun', 'lightning', 'devil', 'dragon', 'water', 'air'],
+    'air' : ['fire', 'rock', 'gun', 'lightning', 'devil', 'dragon', 'water'],
+    'lightning' : ['tree', 'human', 'snake', 'scissors', 'fire', 'rock', 'gun']
+}
+default_options = ['rock', 'paper', 'scissors']
 
 name = input("Enter your name: ")
 print(f"Hello, {name}")
@@ -25,12 +44,16 @@ print(f"Hello, {name}")
 if name not in score:
     score[name] = 0
 
+options = input().split(',')
+
+if options == ['']:
+    options = default_options
+print("Okay, let's start")
+
 player = input()
 
 while player != "!exit":
-    beats = {'rock':'scissors', 'scissors':'paper', 'paper':'rock'}
     cpu = choice(options)
-
     if player == "!rating":
         print(f"Your rating: {score[name]}")
 
@@ -41,11 +64,11 @@ while player != "!exit":
         print(f"There is a draw ({cpu})")
         score[name] += 50
 
-    elif beats[player] == cpu:
+    elif cpu in beats[player]:
         print(f'Well done. Computer chose {cpu} and failed')
         score[name] += 100
 
-    elif beats[cpu] == player:
+    elif player in beats[cpu]:
         print(f'Sorry, but computer chose {cpu}')
 
     player = input()
